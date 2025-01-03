@@ -1,15 +1,30 @@
+import numpy as np
+from sklearn.cluster import KMeans
 import streamlit as st
-import pickle
+import matplotlib.pyplot as plt
+from matplotlib.patches import Ellipse
+import matplotlib.transforms as transforms
 import pandas as pd
 
-with open('fruit_KMeans.pkl', 'rb') as file:
-    model = pickle.load(file)
+st.title("Aplikasi Klastering Wine Dengan KMeans")
 
-st.title("Aplikasi KMeans Clustering")
-uploaded_file = st.file_uploader("wine-clustering.csv", type=["csv"])
+wine = pd.read_csv('wine-clustering.csv')
 
-if uploaded_file is not None:
-    data = pd.read_csv("wine-clustering.csv")
-    predictions = model.predict(data)
-    data['Cluster'] = predictions
-    st.write(data)
+x = wine.iloc[:]
+
+st.header("Isi data set")
+st.write(wine)
+
+inertias = []
+k_range = range (1,11)
+for k in k_range:
+    km = KMeans(n_clusters=k).fit(x)
+    inertias.append(km.inertia_)
+plt.figure(figsize=(12, 8))
+plt.xlabel('nilai k')
+plt.ylabel('sum of errors')
+plt.plot(k_range,inertias)
+plt.grid()
+
+st.set_option('deprecation.showPyplotGlobalUse', False)
+inertiass = st.pyplot
