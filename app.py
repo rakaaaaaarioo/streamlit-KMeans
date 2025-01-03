@@ -7,6 +7,11 @@ import pickle
 
 st.title("Aplikasi Klastering Wine Dengan KMeans")
 
+# Muat model
+with open('model_kmeans.pkl', 'rb') as file:
+    model = pickle.load(file)
+
+# Muat data
 wine = pd.read_csv('wine-clustering.csv')
 x = wine.iloc[:]
 
@@ -33,27 +38,27 @@ plt.plot(k_range, inertias, marker='o')
 plt.grid()
 st.pyplot(plt)
 
+# Slider untuk memilih jumlah kluster
 st.sidebar.subheader("Nilai Jumlah K")
-clust = st.sidebar.slider("Pilih Jumlah Klaster :", 2,10,3,1)
+clust = st.sidebar.slider("Pilih Jumlah Klaster :", 2, 10, 3, 1)
 
 def k_means(n_clust):
-    kmeans = KMeans(n_clusters=n_clust).fit(x)
-    y_kmeans = kmeans.fit_predict(x)
+    kmeans = KMeans(n_clusters=n_clust, random_state=42)  # Inisialisasi KMeans
+    y_kmeans = kmeans.fit_predict(x)  # Fit dan prediksi kluster
 
+    # Membuat plot
     plt.figure(figsize=(12, 8))
-    plt.scatter(x[y_kmeans == 0, 0], x[y_kmeans == 0, 1], s=100, c='red', label='Cluster 1')
-    plt.scatter(x[y_kmeans == 1, 0], x[y_kmeans == 1, 1], s=100, c='blue', label='Cluster 2')
-    plt.scatter(x[y_kmeans == 2, 0], x[y_kmeans == 2, 1], s=100, c='green', label='Cluster 3')
+    plt.scatter(x.iloc[y_kmeans == 0, 0], x.iloc[y_kmeans == 0, 1], s=100, c='red', label='Cluster 1')
+    plt.scatter(x.iloc[y_kmeans == 1, 0], x.iloc[y_kmeans == 1, 1], s=100, c='blue', label='Cluster 2')
+    plt.scatter(x.iloc[y_kmeans == 2, 0], x.iloc[y_kmeans == 2, 1], s=100, c='green', label='Cluster 3')
     plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s=300, c='black', label='Centroids')
     plt.title('Clusters of Wine')
-    plt.xlabel('Index (Baris)')
-    plt.ylabel('Value')
-    plt.title('Wine')
+    plt.xlabel('Feature 1')  # Ganti dengan nama kolom yang sesuai
+    plt.ylabel('Feature 2')  # Ganti dengan nama kolom yang sesuai
     plt.legend(loc='upper right')
-    plt.show()
 
     st.header('Cluster Plot')
-    st.pyplot()
-    st.write(x)
+    st.pyplot(plt)  # Tampilkan plot
 
-KMeans(clust)
+# Panggil fungsi k_means untuk melakukan klastering
+k_means(clust)
