@@ -7,9 +7,6 @@ import pickle
 
 st.title("Aplikasi Klastering Wine Dengan KMeans")
 
-with open('model_kmeans.pkl', 'rb') as file:
-    model = pickle.load(file)
-
 wine = pd.read_csv('wine-clustering.csv')
 x = wine.iloc[:]
 
