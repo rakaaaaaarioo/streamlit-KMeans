@@ -20,6 +20,7 @@ k_range = range (1,11)
 for k in k_range:
     km = KMeans(n_clusters=k).fit(x)
     inertias.append(km.inertia_)
+
 plt.figure(figsize=(12, 8))
 plt.xlabel('nilai k')
 plt.ylabel('sum of errors')
