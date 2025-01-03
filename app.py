@@ -30,4 +30,7 @@ plt.xlabel('Nilai k')
 plt.ylabel('Sum of Squared Errors')
 plt.plot(k_range, inertias, marker='o')
 plt.grid()
-st.pyplot(plt) 
+st.pyplot(plt)
+
+st.sidebar.subheader("Nilai Jumlah K")
+clust = st.sidebar.slider("Pilih Jumlah Klaster :", 2,10,3,1)
