@@ -28,4 +28,4 @@ plt.plot(k_range,inertias)
 plt.grid()
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
-inertiass = st.pyplot
+inertiass = st.pyplot()
